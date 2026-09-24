@@ -33,11 +33,11 @@ Language  varchar(20)  not null,
 Genre     varchar(10)  not null,
 duration  int          not null,
 )
-insert into Movie values(201,'KGF','Telugu','Action',2)
-insert into Movie values(202,'KGF2','Telugu','Action',3)
-insert into Movie values(203,'BRO','Telugu','Comedy',3)
-insert into Movie values(204,'OG','Telugu','Action',4)
-insert into Movie values(205,'OG2','Telugu','Action',3)
+insert into Movie values(201,'KGF','Telugu','Action',102)
+insert into Movie values(202,'KGF2','Telugu','Action',180)
+insert into Movie values(203,'BRO','Telugu','Comedy',200)
+insert into Movie values(204,'OG','Telugu','Action',145)
+insert into Movie values(205,'OG2','Telugu','Action',138)
 select * from Movie
 drop table Movie
 
@@ -69,16 +69,16 @@ show     varchar(50)   not null,
 date     date          not null,
 time     time          not null,
 )
-insert into Show values(401,201,301,'MRG','2026-08-13','1:00PM')
-insert into Show values(402,202,302,'EVNG','2026-08-15','6:00PM')
-insert into Show values(403,203,303,'AFN','2026-08-21','4:00PM')
-insert into Show values(404,204,304,'MRG','2026-08-16','7:00PM')
-insert into Show values(405,205,305,'MRG','2026-08-18','8:00PM')
-insert into Show values(406,206,306,'MRG','2026-08-13','1:00PM')
-insert into Show values(407,207,307,'EVENG','2026-09-13','7:00PM')
-insert into Show values(408,208,308,'AFN','2026-08-13','1:00PM')
-insert into Show values(409,209,309,'AFN','2026-07-15','7:00PM')
-insert into Show values(410,210,310,'AFN','2026-12-13','2:00PM')
+insert into Show values(401,201,301,'MRG','2026-08-13','1:00:00')
+insert into Show values(402,202,302,'EVNG','2026-08-15','6:00:00')
+insert into Show values(403,203,303,'AFN','2026-08-21','4:00:00')
+insert into Show values(404,204,304,'MRG','2026-08-16','7:00:00')
+insert into Show values(405,205,305,'MRG','2026-08-18','8:00:00')
+insert into Show values(406,206,306,'MRG','2026-08-13','1:00:00')
+insert into Show values(407,207,307,'EVENG','2026-09-13','7:00:00')
+insert into Show values(408,208,308,'AFN','2026-08-13','1:00:00')
+insert into Show values(409,209,309,'AFN','2026-07-15','7:00:00')
+insert into Show values(410,210,310,'AFN','2026-12-13','2:00:00')
 select * from Show
 drop table Show
 
@@ -207,47 +207,301 @@ where Amount > 500
 select PID,BID,ptype from Payment
 where ptype = 'UPI'
 
+/* 603	503	UPI
+605	505	UPI*/
+
 select * from Payment
 where pstatus = 'success'
+
+/* 601	501	399	card	success
+602	502	499	cash	success
+603	503	3999	UPI	success
+604	504	2999	card	success
+605	505	3969	UPI	success */
+
 
 select Cname,email from Customer
 where city = 'TPT'
 
+/* Shiva	shiva@gmail.com */
+
 select Mname from Movie
 where Language = 'telugu' and Genre = 'Action'
 
-select Mname from Movie
-where duration > 120 and duration < 180
+/* KGF
+KGF2
+OG
+OG2 */
 
+s
 select * from Customer
 where city = 'TPT'
+
+/*102	Shiva	1234789045	shiva@gmail.com	TPT*/
 
 select * from Theatre
 where city = 'TPT'
 
+/* 301	PVR	Busstand	TPT	1
+302	CS	Circle	TPT	3
+303	PGR	Busstand	TPT	2
+304	Sandhya	Busstand	TPT	4
+305	Jayam	Circle	TPT	5
+306	Pratap	Circle	TPT	3
+307	Palani	Busstand	TPT	2
+308	CS	Chandragiri	TPT	2
+309	PVR2	Busstand	TPT	4
+310	Jaya	Busstand	TPT	3 */
+
 select Tname from Theatre
 where screens < 2 and city = 'TPT'
 
+/* PVR */
+
 select BID,CID from Booking
-where date = '2026-08-16' or seats > 4
+where Booking_date = '2026-08-16' or seats > 4
+
+/* 504	104 */
 
  select * from Payment
  where Amount > 500 and pstatus = 'success'
 
+ /* 603	503	3999	UPI	success
+604	504	2999	card	success
+605	505	3969	UPI	success */
+
  select PID,Amount,ptype from Payment
  where ptype = 'UPI' or ptype = 'card'
+
+ /* 601	399	card
+603	3999	UPI
+604	2999	card
+605	3969	UPI */
 
  select Cname from Customer
  where city = 'TPT' or city = 'HYD'
 
+ /* Shiva */
+
  select CID,Cname from Customer
  where city = 'TPT'
+
+ /* 102	Shiva */
 
  select Mname,Language ,Genre from Movie
  where duration < 120
 
+ /* KGF	Telugu	Action
+KGF2	Telugu	Action
+BRO	Telugu	Comedy
+OG	Telugu	Action
+OG2	Telugu	Action */
+
  select Tname,city,screens from Theatre
  where screens > 3
 
+ /* Sandhya	TPT	4
+Jayam	TPT	5
+PVR2	TPT	4 */
+
  select SID,MID,time from Show
  where time > '6 PM'
+
+ /* 404	204	19:00:00.0000000
+405	205	20:00:00.0000000 */
+
+ select C.Cname,B.BID from Customer as C
+ Join Booking as B on C.CID = B.CID
+
+ /* Rohan	501
+Shiva	502
+Prabhas	503
+Koushik	504
+Gowd	505 */
+
+
+ select C.Cname , C.mobile, B.seats from Customer as C
+ Join Booking as B on C.CID = B.CID
+
+ /* Rohan	1234789008	3
+Shiva	1234789045	2
+Prabhas	1245789008	3
+Koushik	1234785608	6
+Gowd	1234789008	3 */
+
+ select M.Mname,S.show from Movie as M 
+ Join Show as S on M.MID = S.MID
+
+ /* KGF	MRG
+KGF2	EVNG
+BRO	AFN
+OG	MRG
+OG2	MRG */
+
+ select M.Mname , M.Language , S.date from Movie as M 
+ Join Show as S on M.MID = S.MID
+
+ /* KGF	Telugu	2026-08-13
+KGF2	Telugu	2026-08-15
+BRO	Telugu	2026-08-21
+OG	Telugu	2026-08-16
+OG2	Telugu	2026-08-18 */
+
+ select M.Mname , T.Tname , T.city from Movie as M
+ join Show as S on M.MID = S.MID join Theatre as T on S.TID = T.TID
+
+ /* KGF	PVR	TPT
+KGF2	CS	TPT
+BRO	PGR	TPT
+OG	Sandhya	TPT
+OG2	Jayam	TPT */
+
+ select C.Cname , M.Mname , B.seats from Customer as C 
+ join Booking as B on C.CID = B.CID join Show as S on B.SID = S.SID 
+ join Movie as M on S.MID = M.MID
+ where seats > 2
+ 
+ /* Rohan	KGF	3
+Prabhas	BRO	3
+Koushik	OG	6
+Gowd	OG2	3 */
+
+ select M.Mname,T.Tname,S.time from Movie as M 
+ join Show as S on M.MID = S.MID join Theatre as T on S.TID = T.TID
+where T.city = 'TPT' and S.time > '6:00:00'
+
+/* KGF	PVR	13:00:00.0000000
+KGF2	CS	18:00:00.0000000
+BRO	PGR	16:00:00.0000000
+OG	Sandhya	19:00:00.0000000
+OG2	Jayam	20:00:00.0000000 */
+
+ Select C.Cname , M.Mname , B.date from Customer as C
+ join Movie as M on C.CID = M.CID join Booking as B on M.CID = B.CID
+
+ select M.Mname,T.Tname,T.city from Movie as M 
+ join Theatre as T on M.MID = T.MID 
+ where city = 'TPT'
+
+ update Customer 
+ set city = 'CHT'
+ where CID = 101
+
+ update Movie 
+ set Genre = 'Action'
+ where MID = 201
+
+ update Payment 
+ set pstatus = 'success'
+ where PID = 401
+
+ update Payment
+ set ptype = 'UPI'
+ where pstatus = 'Fail'
+
+ delete Customer
+ where CID = '105'
+
+ delete Movie
+ where duration < 90 
+
+ delete Theatre
+ where screens < 2 and city = 'TPT'
+
+ delete Booking
+ where seats = 1 and date = '2026-12-08'
+
+ delete Payment
+ where pstatus = 'Fail' and amount < 300
+
+ select max(duration) from Movie
+ where Language = 'English' or language = 'Telugu'
+
+ /* 4 */
+
+ select avg(duration) from Movie
+ where duration > 120 and duration < 180 
+
+ /* NULL */
+
+ select min(screens) from Theatre
+ where city = 'TPT' and screens > 2
+
+ /* 3 */
+
+ select max(screens) from Theatre 
+ where city = 'TPT' or city = 'HDP'
+
+ /* 5 */
+
+ select avg(Amount) from payment 
+ where pstatus = 'success' and Amount > 2500
+
+ /* 3655 */
+ 
+ select sum(Amount) from Payment
+ where ptype = 'success' and Amount > 500
+
+ select sum(Amount) from Payment
+ where pstatus = 'success' and ptype = 'UPI'
+
+ /* 7968 */
+
+ select sum(Amount) from Payment
+ where ptype = 'UPI' and Amount > 2300
+
+ /* 7968 */
+
+ select distinct city from Theatre
+ where screens > 2 and screens < 6
+
+ /* TPT */
+ 
+ select distinct pstatus from Payment
+ where ptype = 'UPI' or ptype = 'card'
+
+ /* success */
+
+ select distinct date from Show
+ where time > '6:00:00' and time < '10:00:00'
+
+ select * from Movie 
+ where duration = (select max(duration) from Movie)
+
+ /* 204	OG	Telugu	Action	4 */
+
+ select * from Movie
+ where duration = (select min(duration) from Movie)
+
+ /* 201	KGF	Telugu	Action	2 */
+
+ select * from Theatre
+ where screens = (select max(screens) from Theatre)
+
+ /* 305	Jayam	Circle	TPT	5 */
+
+ select * from Theatre
+ where screens = (select min(screens) from Theatre)
+
+ /* 301	PVR	Busstand	TPT	1 */
+
+ select * from Booking
+ where seats = (select max(seats) from Booking)
+
+ /* 504	104	404	6	2026-09-14 */
+
+  select * from Booking
+ where seats = (select min(seats) from Booking)
+
+ /* 502	102	402	2	2026-08-13 */
+
+ select * from Payment
+ where Amount = (select max(Amount) from Payment)
+
+ /* 603	503	3999	UPI	success */
+
+  select * from Payment
+ where Amount = (select min(Amount) from Payment)
+
+ /* 601	501	399	card	success */
+
